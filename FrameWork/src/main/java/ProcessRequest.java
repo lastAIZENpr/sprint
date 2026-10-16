@@ -12,13 +12,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import javax.servlet.annotation.MultipartConfig;
 
+import util.Bit;
 import util.MethodExecutor;
 import util.ModelAndView;
 import util.JsonConverter;
 import util.UrlMethod;
 import annotation.WebApi;
 
+@MultipartConfig
 public class ProcessRequest extends HttpServlet {
 
     private HashMap<UrlMethod, Method> urlMap;
@@ -32,6 +36,20 @@ public class ProcessRequest extends HttpServlet {
         this.urlMap = (HashMap<UrlMethod, Method>) context.getAttribute("urlMap");
         this.prefix = context.getInitParameter("view-prefix");
         this.surfix = context.getInitParameter("view-suffix");
+    }
+
+    private Bit extractBit(String paramName, HttpServletRequest req) throws ServletException, IOException {
+        Part part = req.getPart(paramName);
+        if (part == null || part.getSize() == 0) {
+            return null;
+        }
+        
+        Bit bit = new Bit();
+        bit.setData(part.getInputStream().readAllBytes());
+        bit.setFilename(part.getSubmittedFileName());
+        bit.setContentType(part.getContentType());
+        
+        return bit;
     }
 
     protected void processRequest(HttpServletRequest req, HttpServletResponse res)

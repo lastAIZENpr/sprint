@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload de fichier - Sprint 8</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        form {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload de fichier - Sprint 8</h1>
+    <p>Ce formulaire teste la classe Bit pour la gestion des fichiers binaires.</p>
+    
+    <form action="/Sprint(FW)/upload" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="file">Choisir un fichier :</label>
+            <input type="file" id="file" name="file" required />
+        </div>
+        <button type="submit">Envoyer</button>
+    </form>
+</body>
+</html>
