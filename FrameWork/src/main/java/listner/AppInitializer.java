@@ -3,10 +3,10 @@ package listner;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
-import jakarta.servlet.ServletContext;
-import jakarta.servlet.ServletContextEvent;
-import jakarta.servlet.ServletContextListener;
-import jakarta.servlet.annotation.WebListener;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 import util.ApplicationContext;
 import util.FinderAnnotation;
 import util.UrlMethod;

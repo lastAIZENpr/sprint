@@ -13,11 +13,11 @@ public class ApplicationContext {
         System.out.println("[MonFramework] Initialisation des composants...");
 
         try {
-            Class.forName("org.postgresql.Driver"); 
+            Class.forName("com.mysql.cj.jdbc.Driver");
 
-            String url = "jdbc:postgresql://localhost:5432/ma_base";
-            String user = "postgres";
-            String password = "password";
+            String url = "jdbc:mysql://127.0.0.1:3306/notes?useSSL=false&serverTimezone=UTC";
+            String user = "root";
+            String password = "";
             Connection connection = DriverManager.getConnection(url, user, password);
 
             registry.put("databaseConnection", connection);
