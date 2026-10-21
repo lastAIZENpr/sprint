@@ -16,6 +16,8 @@ import javax.servlet.http.Part;
 import javax.servlet.annotation.MultipartConfig;
 
 import util.Bit;
+import util.Session;
+import util.SessionManager;
 import util.MethodExecutor;
 import util.ModelAndView;
 import util.JsonConverter;
@@ -54,6 +56,27 @@ public class ProcessRequest extends HttpServlet {
 
     protected void processRequest(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
+
+        // Gestion de session
+        String sessionId = null;
+        javax.servlet.http.Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            for (javax.servlet.http.Cookie cookie : cookies) {
+                if ("SESSION_ID".equals(cookie.getName())) {
+                    sessionId = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        
+        SessionManager sessionManager = SessionManager.getInstance();
+        Session session = sessionManager.getSession(sessionId);
+        
+        // Créer ou mettre à jour le cookie de session
+        javax.servlet.http.Cookie sessionCookie = new javax.servlet.http.Cookie("SESSION_ID", session.getSessionId());
+        sessionCookie.setHttpOnly(true);
+        sessionCookie.setPath("/");
+        res.addCookie(sessionCookie);
 
         String url = req.getRequestURI();
         String route = url.substring(req.getContextPath().length());
@@ -98,7 +121,7 @@ public class ProcessRequest extends HttpServlet {
         }
 
         try {
-            Object obj = MethodExecutor.execute(method);
+            Object obj = MethodExecutor.execute(method, session);
 
             if (obj instanceof ModelAndView) {
                 ModelAndView mv = (ModelAndView) obj;
